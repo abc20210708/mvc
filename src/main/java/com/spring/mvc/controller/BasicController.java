@@ -2,9 +2,16 @@ package com.spring.mvc.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 //역할: 브라우저의 요청을 처리
 @Controller
@@ -43,6 +50,7 @@ public class BasicController {
         log.info("/req/v1 GET! ");
         return "req_ex/v1";
     }
+
 
     //요청 파라미터 받기: 클라이언트에서 서버로 전송된 데이터
     // www.abc.com/req/v1?pet=puppy&kind=bulldog
@@ -84,6 +92,11 @@ public class BasicController {
     }
 
 
+    @PostMapping("req/v1")
+    public String v1Post() {
+        log.info("/req/v1 POST! ");
+        return "req_ex/v1";
+    }
 
 
 }//end class
