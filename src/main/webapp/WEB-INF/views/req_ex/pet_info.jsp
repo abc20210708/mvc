@@ -10,20 +10,22 @@
 </head>
 <body>
 
+
+
     <div id="pet-info">
-        <h1> # ${pet.pet} 정보!!</h1>
+       
+        <h1> # ${p.pet} 정보!!</h1>
         <p>
-            우리 애완동물 이름은 ${pet.pet}이구요~~ <br>
-            나이는 ${pet.age}살 입니다. 그리고 주인인 제 이름은 ${pet.master}이구요~ <br>
-            ${pet.pet}의 성별은 ${pet.gender}입니다.
+            우리 애완동물 이름은 ${p.pet}이구요~~ <br>
+            나이는 ${p.age}살 입니다. 그리고 주인인 제 이름은 ${p.master}이구요~ <br>
+            ${pet.pet}의 성별은 ${p.gender}입니다.
         </p>
 
-        <h2>* ${pet.pet}이(가) 좋아하는 것!</h2>
+        <h2>* ${p.pet}이(가) 좋아하는 것!</h2>
         <ul>
-            <c:forEach var="f" items="${hobby}">
-                <span> ${f}</span> 
+            <c:forEach var="h" items="${p.hobby}">
+                <li> ${h}</li> 
              </c:forEach>
-
         </ul>
     </div>
 
