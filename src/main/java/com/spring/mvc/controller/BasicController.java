@@ -2,9 +2,20 @@ package com.spring.mvc.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Arrays;
+import java.util.List;
+
 
 //역할: 브라우저의 요청을 처리
 @Controller
@@ -37,19 +48,21 @@ public class BasicController {
         return "req_ex/v1";
     }
 
-    @GetMapping("req/v1")
+    @GetMapping("/req/v1")
     public String v1() {
         //System.out.println("/req/v1 GET! ");
         log.info("/req/v1 GET! ");
         return "req_ex/v1";
     }
 
+
+
     //요청 파라미터 받기: 클라이언트에서 서버로 전송된 데이터
     // www.abc.com/req/v1?pet=puppy&kind=bulldog
     ///물음표 뒤가 요청 파라미터
 
     // 1. HttpServletRequest 객체 활용하기
-    @PostMapping("req/v1")
+    @PostMapping("/req/v1")
     public String v1Post(HttpServletRequest request) {
         log.info("/req/v1 POST!");
         String petName = request.getParameter("pet");
@@ -77,13 +90,29 @@ public class BasicController {
     }
 
     //3. 커맨드 객체 활용하기
-    @PostMapping("/req/v3")
+   /* @PostMapping("/req/v3")
     public String v3(Pet petInfo) {
          log.info(petInfo);
-        return "req_ex/v1";
+        return "req_ex/pet_info";
+    }*/
+    @PostMapping("/req/v3")
+    public String v3(Pet petInfo) {
+        log.info(petInfo);
+        return "req_ex/pet_info";
     }
 
 
+    //============= 화면(view)으로 서버 데이터 보내기 =============//
+    // 서버에서 클라이언트 화면으로 데이터를 보낼 땐 Model 객체를 활용합니다.
+    @GetMapping("/req/v4")
+    public String v4(Model model) {
+        String[] foods = {"짜장면", "볶음밥", "돈까쓰","삼겹살","햄버거"};
+        int rn = (int)(Math.random() * foods.length);
+
+        model.addAttribute("f",foods[rn]);
+        model.addAttribute("foods", foods);
+        return "req_ex/result";
+    }
 
 
 }//end class
