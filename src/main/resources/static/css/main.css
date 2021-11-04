@@ -116,6 +116,11 @@ header .gnb ul li:hover {
     color: #fff;
 }
 
+/*index 제외한 header*/
+header.common {
+    background: #1b1b1b;
+}
+
 
 /* section visual style */
 section.visual .slide li {
