@@ -11,4 +11,18 @@ public class Board {
     private String writer; //작성자
     private String title; //글제목
     private String content; //글내용
+
+    private static long seq;
+
+    public Board() {
+        this.boardNo = ++seq;
+    }
+
+    public Board(String writer, String title, String content) {
+        this();
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+    }
+
 }//end class
