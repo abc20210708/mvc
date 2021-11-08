@@ -1,6 +1,7 @@
 package com.spring.mvc.board.repository;
 
 import com.spring.mvc.board.domain.Board;
+import com.spring.mvc.board.dto.ModBoard;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface BoardRepository {
     boolean delete(Long boardNo);
 
     //게시물 수정
-    boolean update(Board board);
+    boolean update(ModBoard board);
 
 
 }//

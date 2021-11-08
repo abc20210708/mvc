@@ -1,6 +1,7 @@
 package com.spring.mvc.board.controller;
 
 import com.spring.mvc.board.domain.Board;
+import com.spring.mvc.board.dto.ModBoard;
 import com.spring.mvc.board.service.BoardService;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -69,6 +70,32 @@ public class BoardController {
         model.addAttribute("b", board);
         return "/board/content";
     }
+
+    //수정 양식 화면 요청
+    @GetMapping("/modify")
+    public String modify(Long boardNo, Model model) {
+        log.info("/board/modify GET!" + boardNo);
+        Board board= boardService.get(boardNo);
+        model.addAttribute("board",board);
+        return "board/modify";
+    }
+
+    //수정 요청 처리
+    @PostMapping("/modify")
+    public String modify(ModBoard board) {
+        boardService.update(board);
+        log.info("/board/modify POST - " + board);
+        return "redirect:/board/content?boardNo=" + board.getBoardNo();
+    }
+
+    //삭제 요청 처리
+    @GetMapping("/delete")
+    public String delete(Long boardNo) {
+        log.info("/board/delete GET! -" +boardNo);
+        boardService.remove(boardNo);
+        return "redirect:/board/list";
+    }
+
 
 
 }//end class
