@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class JDBCBasicCRUD {
 
@@ -108,6 +109,56 @@ public class JDBCBasicCRUD {
                 System.out.println("삭제 성공!");
             }
             Assertions.assertTrue(resultNum == 1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//
+
+
+    @Test
+    @DisplayName("product 테이블 전체 조회해야 한다.")
+    void findAllTest() {
+
+        ///자원 반납 자동 try()
+        try (Connection conn
+                     = DriverManager.getConnection(url, id, pw)) {
+            //1. 드라이버 로딩
+            Class.forName(driver);
+            //2. 연결 정보 객체 생성 - try() ->
+
+            //3. SQL 실행 객체 생성
+            String sql = "SELECT * FROM product";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            //4. ?값 채우기
+
+
+            //5. SQL 실행 명령
+            //a : INSERT, UPDATE, DELETE  - executeUpdate()
+            //b : SELECT                   - executeQuery()
+            ResultSet rs = pstmt.executeQuery();
+            ///ResultSet 표
+/*
+            boolean b1 = rs.next();
+            boolean b2 = rs.next();
+
+            System.out.println("b1 = " + b1);
+            System.out.println("b2 = " + b2);*/
+
+            while (rs.next()) {
+                String name = rs.getString("product_name");
+                int price = rs.getInt("product_price");
+                System.out.printf("제품명 : %s, 가격: %d원\n," ,name , price );
+            }
+
+
+         /*   System.out.println("name = " + name);
+            System.out.println("price = " + price);
+
+            boolean b3 = rs.next();
+            System.out.println("b3 = " + b3);*/
 
         } catch (Exception e) {
             e.printStackTrace();

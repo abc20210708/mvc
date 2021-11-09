@@ -5,6 +5,7 @@ import com.spring.mvc.board.dto.ModBoard;
 import com.spring.mvc.board.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Autowired
-    public BoardService(BoardRepository boardRepository) {
+    public BoardService(
+            @Qualifier("br") BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
 
