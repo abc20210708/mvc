@@ -11,3 +11,12 @@ CREATE TABLE board (
     CONSTRAINT pk_board PRIMARY KEY (board_no)
 );
 
+
+--SELECT * FROM board ORDER BY board_no DESC;
+--
+--INSERT INTO board
+-- (board_no, writer, title, content)
+--VALUES
+--(seq_board.nextval,'호우','눈누난나','신난다');
+--
+--COMMIT;

@@ -27,13 +27,14 @@ public class BoardService {
     public List<Board> getList() {
         List<Board> articles =  boardRepository.getArticles();
 
-        //역정렬
+      /*  //역정렬
         List<Board> sortedList = new ArrayList<>();
         for (int i = articles.size() - 1; i >= 0; i--) {
             sortedList.add(articles.get(i));
-        }
+        }*/
 
-        return sortedList;
+
+        return articles;
     }
 
     //글쓰기 중간처리
