@@ -19,7 +19,7 @@ public class BoardService {
 
     @Autowired
     public BoardService(
-            @Qualifier("br") BoardRepository boardRepository) {
+            @Qualifier("bbr") BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
 

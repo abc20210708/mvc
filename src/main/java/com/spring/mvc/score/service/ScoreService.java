@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 //책임: 컨트롤러와 저장소 사이의 중간 데이터 처리 담당
@@ -18,7 +19,7 @@ public class ScoreService {
 
     @Autowired
     public ScoreService(
-            @Qualifier("jr") ScoreRepository scoreRepository) {
+            @Qualifier("ssr") ScoreRepository scoreRepository) {
         this.scoreRepository = scoreRepository;
     }
 
@@ -31,21 +32,25 @@ public class ScoreService {
     //전체조회 중간처리
     public List<Score> getList() {
         List<Score> scoreList = scoreRepository.findAll();
-        //이름에 마킹처리
-        for (Score score : scoreList) {
-            //이름 빼오기
-            String name = score.getName();
-            //성 뽑기
-            String family = String.valueOf(name.charAt(0));
-            //성을 제외한 이름 수
-           // int length = name.length() - 1;
-            for (int i = 0; i < name.length() - 1; i++) {
-                family += "*";
+        if (scoreList != null) {
+            //이름에 마킹처리
+            for (Score score : scoreList) {
+                //이름 빼오기
+                String name = score.getName();
+                //성 뽑기
+                String family = String.valueOf(name.charAt(0));
+                //성을 제외한 이름 수
+               // int length = name.length() - 1;
+                for (int i = 0; i < name.length() - 1; i++) {
+                    family += "*";
+                }
+                score.setMarkName(family);
             }
-            score.setMarkName(family);
+             return scoreList;
+        } else {
+            return Collections.emptyList();//빈 리스트 리턴
         }
 
-        return scoreList;
     }
 
     //삭제 중간 처리
