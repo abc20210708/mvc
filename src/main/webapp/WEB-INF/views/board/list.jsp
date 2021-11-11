@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -61,8 +62,10 @@
                         <td>${b.boardNo}</td>
                         <td>${b.writer}</td>
                         <td>${b.title}</td>
-                        <td>0</td>
-                        <td></td>
+                        <td>${b.viewCnt}</td>
+                        <td>
+                            <fmt:formatDate value="${b.regDate}" pattern="yyyy년 MM월 dd일 E  a hh:mm" />
+                        </td>
                     </tr>
                 </c:forEach>
 

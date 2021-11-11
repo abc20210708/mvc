@@ -50,4 +50,4 @@ public class SpringBoardRepository implements BoardRepository{
         return jdbcTemplate.update(sql, board.getWriter(), board.getTitle(),
                 board.getContent(), board.getBoardNo()) == 1;
     }
-}
+}//end class

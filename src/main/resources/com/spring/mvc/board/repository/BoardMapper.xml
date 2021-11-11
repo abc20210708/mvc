@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 속성에는 사용할 인터페이스의 풀 경로(패키지 포함 인터페이스 이름까지) -->
+<mapper namespace="com.spring.mvc.board.repository.BoardMapper">
+
+    <resultMap id="boardMap" type="com.spring.mvc.board.domain.Board">
+        <!-- property - 자바필드 , column - 테이블 컬럼명       -->
+        <result property="boardNo" column="board_no" />
+        <result property="regDate" column="reg_date" />
+        <result property="viewCnt" column="view_cnt" />
+    </resultMap>
+
+
+    <select id="getArticles" resultMap="boardMap">
+        SELECT * FROM board ORDER BY board_no DESC
+    </select>
+
+
+    <select id="getContent" resultMap="boardMap">
+        SELECT * FROM board WHERE board_no = #{boardNo}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO board
+            (board_no, writer, title, content)
+        VALUES
+            (seq_board.nextval, #{writer}, #{title}, #{content})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM board WHERE board_no = #{boardNo}
+    </delete>
+
+    <update id="update">
+        UPDATE board SET writer=#{writer}, title=#{title},
+        content=#{content} WHERE board_no=#{boardNo}
+    </update>
+
+
+</mapper>

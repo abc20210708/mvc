@@ -2,36 +2,48 @@ package com.spring.mvc.board.service;
 
 import com.spring.mvc.board.domain.Board;
 import com.spring.mvc.board.dto.ModBoard;
-import com.spring.mvc.board.repository.BoardRepository;
+import com.spring.mvc.board.repository.BoardMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class BoardService {
 
-    private final BoardRepository boardRepository;
+    private final BoardMapper boardMapper;
+
+    /*private final BoardRepository boardRepository;
 
     @Autowired
     public BoardService(
             @Qualifier("bbr") BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
-    }
+    }*/
 
     //게시물 목록 중간 처리
     public List<Board> getList() {
-        List<Board> articles =  boardRepository.getArticles();
+        List<Board> articles =  boardMapper.getArticles();
 
       /*  //역정렬
         List<Board> sortedList = new ArrayList<>();
         for (int i = articles.size() - 1; i >= 0; i--) {
             sortedList.add(articles.get(i));
         }*/
+
+        //날짜 정보 바꾸기
+       /* for (Board article : articles) {
+            Date regDate = article.getRegDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 hh:mm");
+            String prettierDate =  sdf.format(regDate);
+            article.setRegDateStr(prettierDate);
+        }*/
+
 
 
         return articles;
@@ -40,21 +52,21 @@ public class BoardService {
     //글쓰기 중간처리
     public boolean write(Board board) {
 
-        return boardRepository.insert(board);
+        return boardMapper.insert(board);
     }
 
     //상세조회 중간처리
     public Board get(Long boardNo) {
-        return boardRepository.getContent(boardNo);
+        return boardMapper.getContent(boardNo);
     }
 
     //수정 중간 처리
     public boolean update(ModBoard board) {
-        boardRepository.update(board);
+        boardMapper.update(board);
         return true;
     }
 
     public void remove(Long boardNo) {
-        boardRepository.delete(boardNo);
+        boardMapper.delete(boardNo);
     }
 }//end class
