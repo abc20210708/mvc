@@ -18,6 +18,9 @@ public interface BoardMapper {
     //페이징 추가 버전
     List<Board> getArticles(Page page);
 
+    //총 게시물 수 조회
+    int getTotalCount();
+
     //게시물 상세 조회
     Board getContent(Long boardNo);
 

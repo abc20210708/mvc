@@ -4,6 +4,7 @@ import com.spring.mvc.board.domain.Board;
 import com.spring.mvc.board.dto.ModBoard;
 import com.spring.mvc.board.service.BoardService;
 import com.spring.mvc.common.paging.Page;
+import com.spring.mvc.common.paging.PageMaker;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class BoardController {
         log.info("/board/list GET!" + page);
         List<Board> boardList = boardService.getList(page);
         model.addAttribute("articles", boardList);
+        model.addAttribute("pageInfo", new PageMaker(page, boardService.getCount()));
         return "board/list";
     }
 

@@ -15,6 +15,13 @@
 
     </resultMap>
 
+    <!--  총 게시물 수 조회  ///결과가 숫자 하나 resultType-->
+    <select id="getTotalCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM board
+    </select>
+
 
     <select id="getArticles" resultMap="boardMap">
         <![CDATA[

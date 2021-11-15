@@ -48,8 +48,6 @@ public class BoardService {
             article.setRegDateStr(prettierDate);
         }*/
 
-
-
         //return articles;
     }
 
@@ -93,4 +91,10 @@ public class BoardService {
     public void remove(Long boardNo) {
         boardMapper.delete(boardNo);
     }
+
+    //총 게시물 수 조회 중간 처리
+    public int getCount() {
+        return boardMapper.getTotalCount();
+    }
+
 }//end class
