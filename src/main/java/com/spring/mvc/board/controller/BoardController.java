@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -40,11 +41,11 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Page page,Model model) {
+    public String list(Model model,Page page) {
         log.info("/board/list GET!" + page);
         List<Board> boardList = boardService.getList(page);
         model.addAttribute("articles", boardList);
-        model.addAttribute("pageInfo", new PageMaker(page, boardService.getCount()));
+        model.addAttribute("pageInfo", new PageMaker(page, boardService.getCount(page)));
         return "board/list";
     }
 
@@ -66,11 +67,12 @@ public class BoardController {
     //상세 조회 요청
     // /board/content?boardNo=3
     @GetMapping("/content")
-    public String content(Long boardNo, Model model)  {
+    public String content(Long boardNo, Model model, @ModelAttribute("p") Page page)  {
         log.info("/board/content GET! -"+ boardNo);
         Board board = boardService.get(boardNo);
         log.info("board - " + board);
         model.addAttribute("b", board);
+        //model.addAttribute("p",page);
         return "/board/content";
     }
 

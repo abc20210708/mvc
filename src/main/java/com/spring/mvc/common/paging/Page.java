@@ -11,9 +11,14 @@ public class Page {
     private int pageNum; //페이지 번호
     private int amount; //한 페이지당 게시물 수
 
+    private String type; //검색 조건
+    private String keyword; //검색어
+
+
     public Page() {
         this.pageNum = 1;
         this.amount = 10;
+        this.keyword = "";
     }
 
     public void setPageNum(int pageNum) {

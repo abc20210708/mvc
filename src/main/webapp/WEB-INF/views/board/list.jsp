@@ -67,6 +67,25 @@
         .board-list .amount a {
             width: 80px;
         }
+
+        .board-list .search {
+            position: absolute;
+            top: 21%;
+            left: 16%;
+        }
+
+        .board-list .search form {
+            display: flex;
+        }
+
+        .board-list .search form select {
+            flex:1;
+            margin-right: 10px;
+        }
+
+        .board-list .search form input {
+            flex: 2;
+        }
     </style>
 
 </head>
@@ -80,11 +99,30 @@
 
         <div class="board-list">
 
+            <!-- 검색창 영역 -->
+            <section class="search">
+                <form action="/board/list" method="get">
+                    <select id="search-type" class="form-select" name="type">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                        <option value="titleContent">제목+내용</option>
+                    </select>
+                    <input class="form-control" type="text" name="keyword" value="${pageInfo.page.keyword}">
+                    <button class="btn btn-primary" type="submit">
+                        <!-- <span class="lnr lnr-magnifier"></span> -->
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </section>
+
+
             <div class="amount">
                 <a class="btn btn-danger" href="/board/list?amount=10">10</a>
                 <a class="btn btn-danger" href="/board/list?amount=20">20</a>
                 <a class="btn btn-danger" href="/board/list?amount=30">30</a>
             </div>
+
 
 
 
@@ -119,18 +157,25 @@
 
             <div class="bottom-section">
 
+                <!-- <div>${pageInfo}</div> -->
+
                 <ul class="pagination pagination-lg pagination-custom">
 
                     <c:if test="${pageInfo.prev}">
-                        <li class="page-item"><a class="page-link" href="/board/list?pageNum=${pageInfo.beginPage -1}">prev</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/board/list?pageNum=${pageInfo.beginPage -1}&amount=${pageInfo.page.amount}&type=${pageInfo.page.type}&keyword=${pageInfo.page.keyword}">prev</a>
+                        </li>
                     </c:if>
 
                     <c:forEach var="i" begin="${pageInfo.beginPage}" end="${pageInfo.endPage}" step="1">
-                        <li class="page-item"><a class="page-link" href="/board/list?pageNum=${i}">${i}</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/board/list?pageNum=${i}&amount=${pageInfo.page.amount}&type=${pageInfo.page.type}&keyword=${pageInfo.page.keyword}">${i}</a></li>
                     </c:forEach>
 
                     <c:if test="${pageInfo.next}">
-                        <li class="page-item"><a class="page-link" href="/board/list?pageNum=${pageInfo.endPage + 1}">next</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/board/list?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.page.amount}&type=${pageInfo.page.type}&keyword=${pageInfo.page.keyword}">next</a>
+                        </li>
                     </c:if>
                 </ul>
 
@@ -154,27 +199,40 @@
                 let bn = e.target.parentElement.firstElementChild.textContent;
                 console.log('글번호 :' + bn);
 
-                location.href = '/board/content?boardNo=' + bn;
+                location.href = '/board/content?boardNo=' + bn + '&pageNum=${pageInfo.page.pageNum}' +
+                    '&amount=${pageInfo.page.amount}';
             });
 
             //현재 위치한 페이지에 active 클래스 부여하기
             function appendPageActive() {
                 //현재 위치한 페이지 넘버
                 const curPage = '${pageInfo.page.pageNum}';
-               // console.log('현재페이지: ', curPage);
+                // console.log('현재페이지: ', curPage);
 
-               //ul의 li들을 전부 확인해서 그 텍스트 컨텐츠(페이지 넘버)가
-               //현재 위치한 페이지 넘버와 같은 li에게 class = "active" 부여
-               const $ul = document.querySelector('.pagination');
-               for(let $li of [...$ul.children]) {
-                   if($li.textContent === curPage) {
-                       $li.classList.add('active');
-                       break;
-                   }
-               }
+                //ul의 li들을 전부 확인해서 그 텍스트 컨텐츠(페이지 넘버)가
+                //현재 위치한 페이지 넘버와 같은 li에게 class = "active" 부여
+                const $ul = document.querySelector('.pagination');
+                for (let $li of [...$ul.children]) {
+                    if ($li.textContent === curPage) {
+                        $li.classList.add('active');
+                        break;
+                    }
+                }
+            }
+
+            //검색 완료 후 select option 값 고정
+            function fixSearchOption() {
+                const $select = document.getElementById('search-type');
+                for (let $op of [...$select.children] ) {
+                    if($op.value === '${pageInfo.page.type}') {
+                        $op.setAttribute('selected', 'selected');
+                        break;
+                    }
+                }
             }
 
             appendPageActive();
+            fixSearchOption();
 
         </script>
 

@@ -19,7 +19,7 @@ public interface BoardMapper {
     List<Board> getArticles(Page page);
 
     //총 게시물 수 조회
-    int getTotalCount();
+    int getTotalCount(Page page);
 
     //게시물 상세 조회
     Board getContent(Long boardNo);
