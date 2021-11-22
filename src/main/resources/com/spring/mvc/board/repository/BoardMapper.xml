@@ -82,9 +82,9 @@
 
     <insert id="insert">
         INSERT INTO board
-            (board_no, writer, title, content)
+            (board_no, writer, title, content, account)
         VALUES
-            (seq_board.nextval, #{writer}, #{title}, #{content})
+            (seq_board.nextval, #{writer}, #{title}, #{content}, #{account})
     </insert>
 
     <delete id="delete">

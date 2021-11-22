@@ -24,7 +24,6 @@
                 <div class="card" style="width:200%;">
                     <div class="card-header text-white" style="background: #343A40;">
                         <h2><span style="color: gray;">MVC</span> 회원 가입</h2>
-                    </div>
                     <div class="card-body">
 
 

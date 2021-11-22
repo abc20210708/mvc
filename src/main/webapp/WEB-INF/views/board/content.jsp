@@ -92,8 +92,12 @@
                 </div>
 
                 <div class="btn-group btn-group-lg custom-btn-group" role="group">
-                    <button id="mod-btn" type="button" class="btn btn-warning">수정</button>
-                    <button id="del-btn" type="button" class="btn btn-danger">삭제</button>
+
+                    <c:if test="${b.account == loginUser.account || loginUser.auth == 'ADMIN'}">
+                        <button id="mod-btn" type="button" class="btn btn-warning">수정</button>
+                        <button id="del-btn" type="button" class="btn btn-danger">삭제</button>
+                    </c:if>
+
                     <button id="list-btn" type="button" class="btn btn-dark">목록</button>
                 </div>
             </div>
@@ -106,6 +110,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
+
+                                <c:if test="${loginUser != null}">
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label for="newReplyText" hidden>댓글 내용</label>
@@ -122,6 +128,12 @@
                                             class="btn btn-dark form-control">등록</button>
                                     </div>
                                 </div>
+                            </c:if>
+
+                            <c:if test="${loginUser == null}"> 
+                                <div><a href="/login"> 댓글은 로그인 후 작성 가능합니다.</a></div>
+                            </c:if>
+
                             </div>
                         </div>
                     </div> <!-- end reply write -->
@@ -195,25 +207,33 @@
 
 
     <script>
-        const [$modBtn, $delBtn, $listBtn] = [...document.querySelector('div[role=group]').children];
+        // const [$listBtn, $modBtn, $delBtn] = [...document.querySelector('div[role=group]').children];
 
-        // const $modBtn = document.getElementById('mod-btn');
+        const $listBtn = document.getElementById('list-btn');
+        const $modBtn = document.getElementById('mod-btn');
+        const $delBtn = document.getElementById('del-btn');
+
         //수정버튼
-        $modBtn.onclick = e => {
-            location.href = '/board/modify?boardNo=${b.boardNo}';
-        };
+        if ($modBtn !== null) {
+            $modBtn.onclick = e => {
+                location.href = '/board/modify?boardNo=${b.boardNo}';
+            };
+        }
 
         //삭제버튼
-        $delBtn.onclick = e => {
-            if (!confirm('정말 삭제하시겠습니까?')) {
-                return;
-            }
-            location.href = '/board/delete?boardNo=${b.boardNo}';
-        };
+        if ($delBtn !== null) {
+            $delBtn.onclick = e => {
+                if (!confirm('정말 삭제하시겠습니까?')) {
+                    return;
+                }
+                location.href = '/board/delete?boardNo=${b.boardNo}';
+            };
+        }
         //목록버튼
-        $listBtn.onclick = e => {
-            location.href = '/board/list?pageNum=${p.pageNum}&amount=${p.amount}';
-        };
+        $listBtn.addEventListener('click', e => {
+            console.log('목록 클릭!');
+            location.href = '/board/list?pageNum=${p.pageNum}&amount=${p.amount}'
+        });
     </script>
 
     <!-- 댓글 관련 스크립트 -->

@@ -18,6 +18,7 @@ public class Board {
     private Date regDate; //작성 시간
     private Date updateDate; //최종 수정 시간
     private int viewCnt; //조회수
+    private String account; //작성자 아이디
 
     private String regDateStr; //포맷팅된 날짜 문자열
     private boolean newFlag; //신규글 여부

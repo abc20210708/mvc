@@ -1,13 +1,18 @@
 package com.spring.mvc.member.controller;
 
+import com.spring.mvc.member.domain.LoginFlag;
 import com.spring.mvc.member.domain.Member;
 import com.spring.mvc.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,5 +52,42 @@ public class MemberController {
         memberService.signUp(member);
         return "redirect:/";
     }
+
+    //로그인 양식 요청
+    @GetMapping("/login")
+    public String login() {
+        return "member/login";
+    }
+
+    //로그인 검증
+    @PostMapping("/loginCheck")
+    public String loginCheck(String account, String password, Model model
+                                    , HttpSession session) {
+        log.info("/loginCheck ==> POST!  - ID: " + account + ", PW :" + password );
+        LoginFlag flag = memberService.login(account,password);
+        log.info(flag);
+        model.addAttribute("msg",flag);
+
+        //로그인 성공시  ///문자열아니라서 == 열거형
+        if (flag == LoginFlag.SUCCESS) {
+           session.setAttribute("loginUser",memberService.getMember(account));
+            return "redirect:/";
+        }
+
+        return "member/login";
+    }
+
+    //로그아웃
+    @GetMapping("/sign-out")
+    public String logout(HttpSession session) {
+        Member member = (Member) session.getAttribute("loginUser"); //object 다운 캐스닝
+        if (member != null) { //로그인 성공한 사람
+            session.removeAttribute("loginUser");
+            session.invalidate(); //세션 무효화
+        }
+        return "redirect:/";
+    }
+
+
 
 }//end class

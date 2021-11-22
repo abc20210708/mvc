@@ -5,6 +5,7 @@ import com.spring.mvc.board.dto.ModBoard;
 import com.spring.mvc.board.service.BoardService;
 import com.spring.mvc.common.paging.Page;
 import com.spring.mvc.common.paging.PageMaker;
+import com.spring.mvc.member.domain.Member;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -51,8 +53,12 @@ public class BoardController {
 
     //글쓰기 화면 요청
     @GetMapping("/write")
-    public String write() {
+    public String write(HttpSession session) {
         log.info("/board/write GET!");
+        Member member = (Member) session.getAttribute("loginUser");
+        if(member == null) {
+            return "redirect:/login";
+        }
         return "/board/write";
     }
 
@@ -83,6 +89,7 @@ public class BoardController {
         Board board= boardService.get(boardNo);
         model.addAttribute("board",board);
         return "board/modify";
+
     }
 
     //수정 요청 처리
